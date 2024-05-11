@@ -5,7 +5,7 @@ game_library = {#fixed
     "Super Mario Bros": {"copies_available": 5, "cost": 3},
     "Tetris": {"copies_available": 2, "cost": 1}
 }
-
+   
 acc_library = {}
 
 def display_available_games(): #fixed
@@ -16,8 +16,8 @@ def display_available_games(): #fixed
         cost = game_library[game]["cost"]
         print(f"{i}. {game} - Copies available: {copies_available} - Rental cost: ${cost}")
     print("===========================================================")
-    
-def register_user(): #fixed
+
+def register_user(): #fixedr
     while True:
         try:
             print("\n===========================================================")
@@ -59,21 +59,22 @@ def register_user(): #fixed
             return
 
 def login_user(): #fixed
-    while True:
+        print("\n===========================================================")
+        print("Sign-in Portal\n")
+        username = str(input("Username: "))
+        password = str(input("Password: "))
+        if username in acc_library and acc_library[username]["password"] == password:
             print("\n===========================================================")
-            print("Sign-in Portal\n")
-            username = str(input("Username: "))
-            password = str(input("Password: "))
-            if username in acc_library and acc_library[username]["password"] == password:
-                print("\n===========================================================")
-                print("                    Sign-in Successful")
-                print("===========================================================")
-                user_menu(username)
-            else:
-                print("\n===========================================================")
-                print("         Account not found. Please register first!")
-                print("===========================================================")
-                break
+            print("                    Sign-in Successful")
+            print("===========================================================")
+            user_menu(username)
+        else:
+            print("\n===========================================================")
+            print("         Account not found. Please register first!")
+            print("===========================================================")
+            main()
+            return
+                
         
 def admin_login():
     while True:
@@ -93,6 +94,7 @@ def admin_login():
                 print("\n===========================================================")
                 print("              Incorrect username or password")
                 print("===========================================================")
+                main()
                 break
         except ValueError:
             print("\nWrong input")
@@ -139,6 +141,7 @@ def user_menu(username): #fixed
             print("\n===========================================================")
             print("                      Wrong input")
             print("===========================================================")
+            user_menu(username)
             return
 
 def admin_menu(): #fixed
@@ -299,12 +302,12 @@ def rent_selected_game(username): #fixed
                         print("===========================================================")
                         rent_selected_game(username)
                         return   
-                else:
-                    print("\n===========================================================")
-                    print("  Please enter a valid option from the game library.")
-                    print("===========================================================")
-                    rent_selected_game(username)
-                    return
+            else:
+                print("\n===========================================================")
+                print("  Please enter a valid option from the game library.")
+                print("===========================================================")
+                rent_selected_game(username)
+                return
     except ValueError:
         print("\n===========================================================")
         print("          Invalid input. Canceling transaction.")
@@ -312,7 +315,6 @@ def rent_selected_game(username): #fixed
         user_menu(username)
         return
 def return_rented_game(username):
-    display_available_games()
     while True:
         if "rented_games" in acc_library[username]: 
             try:
@@ -337,13 +339,14 @@ def return_rented_game(username):
                                 if acc_library[username]["rented_games"][game_name] == 0:
                                     del acc_library[username]["rented_games"]
                                 acc_library[username]["Points"] += 1
-                                return
+
                             else:
                                 print("\n===========================================================")
                                 print("      Invalid game choice. You didn't rent this game.")
                                 print("===========================================================")
                                 return_rented_game(username)
-                                 
+                                return
+                            break
                     else:
                         print("\n===========================================================")
                         print("  Please enter a valid game option from the game library.")
@@ -385,12 +388,12 @@ def admin_game_menu(): #fixed
                         print(f"Updated {game_name}'s copies to {updated_copies}")
                         print("===========================================================")
                         break
-                    else:
-                        print("\n===========================================================")
-                        print("               Invalid input. Exiting....")
-                        print("===========================================================")
-                        admin_game_menu()
-                        return
+                else:
+                    print("\n===========================================================")
+                    print("               Invalid input. Exiting....")
+                    print("===========================================================")
+                    admin_game_menu()
+                    return
                             
         elif choice == 2:
             display_available_games()
@@ -405,12 +408,12 @@ def admin_game_menu(): #fixed
                         print(f"Updated {game_name}'s price to {updated_price}")
                         print("===========================================================")
                         break
-                    else:
-                        print("\n===========================================================")
-                        print("               Invalid input. Exiting....")
-                        print("===========================================================")
-                        admin_game_menu()
-                        return
+                else:
+                    print("\n===========================================================")
+                    print("               Invalid input. Exiting....")
+                    print("===========================================================")
+                    admin_game_menu()
+                    return
         elif choice == 3:
             print("\n===========================================================")
             print("                      Exiting....")
@@ -430,6 +433,7 @@ def admin_game_menu(): #fixed
             
         
 def main(): #fixed
+    while True:
         print("\nWELCOME TO THE GAME RENTAL SYSTEM!\n") 
         print("1. Display Available Games")
         print("2. Register User")
@@ -456,4 +460,5 @@ def main(): #fixed
             print("\n===========================================================")
             print("               Please select a valid option")
             print("===========================================================")
+            break
 main()
